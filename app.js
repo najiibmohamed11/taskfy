@@ -1,19 +1,20 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const formidable = require("formidable");
+const http = require('http');
+const taskRoutes = require('./routes/taskRoutes');
 
-const port=3000;
-const server=http.createServer((req,res)=>{
-    if(req.url.startsWith("/tasks")){
-        tasksRouter(req,res);
-    }else{
-        res.writeHead(404,{"content-type":"application/json"})
-    res.end(JSON.stringify({
-        message:"not found"}))
-    }});
+const HOSTNAME = 'localhost'
+const PORT = 9000
 
+const server = http.createServer((req, res) => {
+    if (req.url.startsWith('/tasks')) {
+        taskRoutes(req, res)
+    } else {
+        res.writeHead(404, 'Not Found', { 'content-type': 'application/json'})
+        res.end(JSON.stringify({
+            message: 'wrong url'
+        }))
+    }
+});
 
-    server.listen(port,()=>{
-        console.log(`server is running on port ${port}`)
-    });
+server.listen(PORT, HOSTNAME, () => {
+    console.log(`Server running on port ${PORT}`)
+})
